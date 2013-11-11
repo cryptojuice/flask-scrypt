@@ -71,8 +71,15 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
     Returns:
         - base64 encoded scrypt hash.
     """
-    password = password.encode('utf-8')
     scrypt_hash = scrypt.hash(password, salt, N, r, p, buflen)
+
+    if PYTHON3 and isinstance(password, bytes):
+        password = password.decode('utf-8')
+        return enbase64(scrypt_hash).decode('utf-8')
+    elif PYTHON3:
+        return enbase64(scrypt_hash).decode('utf-8')
+
+    password = password.encode('utf-8')
     return enbase64(scrypt_hash)
 
 
@@ -84,9 +91,11 @@ def generate_random_salt(byte_size=64):
         - ``byte_size``: The length of salt to return. default = 64.
 
     Returns:
-        - base64 encoded random bytes.
+        - str of base64 encoded random bytes.
     """
     salt = enbase64(urandom(byte_size))
+    if PYTHON3:
+        return salt.decode('utf-8')
     return salt
 
 
