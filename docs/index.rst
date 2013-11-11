@@ -4,14 +4,28 @@
    contain the root `toctree` directive.
 
 Flask-Scrypt
-===========
+============
 
-Flask-Scrypt is a flask extension used to generate scrypt password hashes and random salts. For those looking for extra security compared to
-SHA-1 and MD5 encryption. Flask-Scrypt depends on scrypt >= 0.6.1 which should install automatically but can be installed manually using 
+Flask-Scrypt is a `Flask`_ extension used to generate scrypt password hashes and random salts. For those looking for extra security compared to
+SHA-1 and MD5 encryption. Flask-Scrypt depends on `py-scrypt`_ which should install automatically but can be installed manually using 
 pip install scrypt
+
+.. _py-scrypt: https://bitbucket.org/mhallin/py-scrypt/src
+.. _Flask: http://flask.pocoo.org
 
 .. toctree::
    :maxdepth: 2
+
+Installation
+------------
+
+Install the extension with one of the following commands::
+
+    $ pip flask-scrypt
+
+or alternatively if you must::
+
+    $ easy_install install flask-scrypt
 
 
 Usage
