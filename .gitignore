@@ -8,3 +8,4 @@ dist/
 __pycache__
 Flask_Scrypt.egg-info/*
 .env/*
+.envp3/*
