@@ -11,6 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+.. automodule:: flask_scrypt
+    :members:
+
 
 
 Indices and tables
