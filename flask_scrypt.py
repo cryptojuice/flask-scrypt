@@ -69,6 +69,14 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
 
 
 def generate_random_salt(byte_size=64):
+    """Generate random salt to use with generate_password_hash().
+
+    Args:
+        byte_size (int): The length of salt to return. default = 64.
+
+    Returns:
+        base64 encoded random bytes
+    """
     salt = enbase64(urandom(byte_size))
     return salt
 
