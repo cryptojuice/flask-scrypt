@@ -34,7 +34,7 @@ setup(name='Flask-Scrypt',
         zip_safe=False,
         include_package_data=True,
         install_requires=['Flask', 'scrypt'],
-        test_suite='test_scrypt'
+        test_suite='test_scrypt',
         classifiers=[
             'Development Status :: 4 - Beta',
             'Environment :: Web Environment',
