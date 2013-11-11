@@ -1,4 +1,6 @@
-""" Create base64 encode Scrypt hashes and random salts
+"""
+Flask-Scrypt flask extension provides scrypt password hashing and random salt generation.
+Hashes and Salts are base64 encoded.
 """
 import sys
 import base64
@@ -65,6 +67,7 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
 
 def generate_random_salt(byte_size=64):
     """ Generate random salt
+
         Args:
             byte_size (int): The length of salt to return. default = 64
     """
