@@ -1,5 +1,7 @@
-##Flask-Scrypt
+Flask-Scrypt
 ============
+[![Build Status](https://travis-ci.org/grobins2/flask-scrypt.png?branch=master)](https://travis-ci.org/grobins2/flask-scrypt)
+
 
 Flask-Scrypt flask extension provides scrypt password hashing and random salt generation.
 
