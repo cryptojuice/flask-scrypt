@@ -87,11 +87,8 @@ def check_password_hash(password, password_hash, salt):
         password (str): The password to check.
 
     Returns:
-        boolean
-            True -- Correct password.
-            False -- Incorrect password.
+        bool
     """
-
 
     if PYTHON3 and isinstance(salt, bytes):
         password = str(password)
