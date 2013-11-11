@@ -2,12 +2,13 @@
     Flask-Scrypt
     ------------
 
-    Flask-Scrypt flask extension provides scrypt password hashing and
-    random salt generation.
+    Flask-Scrypt extension provides scrypt password hashing and
+    random salt generation for Flask.
 
     Links
     `````
-    * `development version <https://github.com/grobins2/flask-scrypt>`_
+    * `Documentation <http://flask-scrypt.readthedocs.org/en/latest/>`_
+    * `Development version <https://github.com/grobins2/flask-scrypt>`_
 """
 import os
 from setuptools import setup
@@ -20,7 +21,8 @@ __version__ = '.'.join(eval(VERSION_LINE.split('__version_info__ = ')[-1]))
 
 
 setup(name='Flask-Scrypt',
-        description='Random salt generation and Scrypt password hashing for Flask.',
+        description='Flask-Scrypt extension provides scrypt password hashing\
+                and random salt generation for Flask.',
         version=__version__,
         url='http://github.com/grobins2/flask-scrypt',
         license='MIT',
@@ -29,6 +31,8 @@ setup(name='Flask-Scrypt',
         long_description=__doc__,
         py_modules=['flask_scrypt'],
         platforms='any',
+        zip_safe=False,
+        include_package_data=True,
         install_requires=['Flask', 'scrypt'],
         classifiers=[
             'Development Status :: 4 - Beta',
