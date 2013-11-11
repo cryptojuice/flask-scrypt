@@ -1,4 +1,4 @@
-.DS_Store
+.S_Store
 .*.swp
 .tox
 docs/_build/*
@@ -7,3 +7,4 @@ dist/
 *.pyc
 __pycache__
 Flask_Scrypt.egg-info/*
+.env/*
