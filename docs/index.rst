@@ -21,7 +21,7 @@ Installation
 
 Install the extension with one of the following commands::
 
-    $ pip flask-scrypt
+    $ pip install flask-scrypt
 
 or alternatively if you must::
 
