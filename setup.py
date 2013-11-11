@@ -9,22 +9,27 @@
     `````
     * `development version <https://github.com/grobins2/flask-scrypt>`_
 """
-from setuptools import setup, find_packages
+import os
+from setuptools import setup
+
+MODULE_PATH = os.path.join(os.path.dirname(__file__), 'flask_scrypt.py')
+VERSION_LINE = [f for f in open(MODULE_PATH).readlines() 
+        if '__version_info__' in f][0]
+
+__version__ = '.'.join(eval(VERSION_LINE.split('__version_info__ = ')[-1]))
 
 
 setup(name='Flask-Scrypt',
-        description='Flask extention to generate scrypt password hashes\
-                and random salts',
-        version='0.1',
+        description='Random salt generation and Scrypt password hashing for Flask.',
+        version=__version__,
         url='http://github.com/grobins2/flask-scrypt',
-        packages=find_packages(),
         license='MIT',
-        author='Gilbert(Nick) Robinson',
+        author='Gilbert Robinson',
         author_email='grobins2@gmail.com',
         long_description=__doc__,
         py_modules=['flask_scrypt'],
         platforms='any',
-        install_requires=['Flask'],
+        install_requires=['Flask', 'scrypt'],
         classifiers=[
             'Development Status :: 4 - Beta',
             'Environment :: Web Environment',
