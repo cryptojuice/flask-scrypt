@@ -6,6 +6,8 @@
 Welcome to Flask-Scrypt's documentation!
 ========================================
 
+.. toctree::
+   :maxdepth: 2
 
 
 Flask-Scrypt is a flask extension used to generate scrypt password hashes and random salts. For those looking for extra security compared to
@@ -23,9 +25,6 @@ Indices and tables
 Usage
 =====
 
-.. toctree::
-   :maxdepth: 2
-   Usage
 
 
 >>> from flask.ext.scrypt import generate_random_salt, generate_password_hash, check_password_hash
@@ -38,9 +37,6 @@ Remember you sould store the generated salt and hash in your database with each 
 
 API
 ===
-
-.. toctree::
-   API
 
 .. automodule:: flask_scrypt
     :members:
