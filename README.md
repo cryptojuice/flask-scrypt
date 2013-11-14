@@ -2,8 +2,8 @@ Flask-Scrypt
 ============
 [![Build Status](https://travis-ci.org/grobins2/flask-scrypt.png?branch=master)](https://travis-ci.org/grobins2/flask-scrypt)
 
-
-Flask-Scrypt flask extension provides scrypt password hashing and random salt generation.
+Flask-Scrypt is a Flask extension used to generate scrypt password hashes and random salts. For those looking for extra security compared to SHA-1 and MD5 encryption. 
+Flask-Scrypt depends on py-scrypt which should install automatically but can be installed manually using pip install scrypt.
 
 ## Installation
 
