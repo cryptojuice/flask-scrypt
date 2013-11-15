@@ -31,6 +31,10 @@ def enbase64(byte_str):
     Returns:
         - byte_str encoded as base64.
     """
+
+    # Python 3: base64.b64encode() expects type byte
+    if PYTHON3 and isinstance(byte_str, str):
+        byte_str = bytes(byte_str, 'utf-8')
     return base64.b64encode(byte_str)
 
 
@@ -44,6 +48,7 @@ def debase64(byte_str):
     Returns:
         - decoded string as type str for python2 and type byte for python3.
     """
+    # Python 3: base64.b64decode() expects type byte
     if PYTHON3 and isinstance(byte_str, str):
         byte_str = bytes(byte_str, 'utf-8')
     return base64.b64decode(byte_str)
@@ -72,14 +77,6 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
         - base64 encoded scrypt hash.
     """
     scrypt_hash = scrypt.hash(password, salt, N, r, p, buflen)
-
-    if PYTHON3 and isinstance(password, bytes):
-        password = password.decode('utf-8')
-        return enbase64(scrypt_hash).decode('utf-8')
-    elif PYTHON3:
-        return enbase64(scrypt_hash).decode('utf-8')
-
-    password = password.encode('utf-8')
     return enbase64(scrypt_hash)
 
 
@@ -94,8 +91,6 @@ def generate_random_salt(byte_size=64):
         - str of base64 encoded random bytes.
     """
     salt = enbase64(urandom(byte_size))
-    if PYTHON3:
-        return salt.decode('utf-8')
     return salt
 
 
@@ -109,12 +104,6 @@ def check_password_hash(password, password_hash, salt):
     Returns:
        - ``bool``
     """
-    if PYTHON3 and isinstance(salt, bytes):
-        password = str(password)
-        salt = salt.decode('utf-8')
-    else:
-        password = password.encode('utf-8')
-        salt = salt.encode('utf-8')
 
     scrypt_hash_base64 = generate_password_hash(password, salt)
 
