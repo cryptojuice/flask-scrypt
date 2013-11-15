@@ -4,7 +4,7 @@ import sys
 import base64
 from os import urandom
 
-__version_info__ = ('0', '1', '1')
+__version_info__ = ('0', '1', '2')
 __version__ = '.'.join(__version_info__)
 __author__ = 'Gilbert Robinson'
 __license__ = 'MIT'
