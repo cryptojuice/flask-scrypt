@@ -8,10 +8,6 @@ class ScryptTestCase(unittest.TestCase):
         self.password = 'mypassword'
         self.password_hash = generate_password_hash(self.password, self.salt)
 
-    def test_is_string(self):
-        salt = generate_random_salt()
-        self.assertTrue(isinstance(salt, str))
-
     def test_check_password_correct(self):
         password = 'mypassword'
         salt = self.salt
