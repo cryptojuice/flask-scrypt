@@ -4,7 +4,7 @@ import sys
 import base64
 from os import urandom
 
-__version_info__ = ('0', '1', '2')
+__version_info__ = ('0', '1', '3')
 __version__ = '.'.join(__version_info__)
 __author__ = 'Gilbert Robinson'
 __license__ = 'MIT'
@@ -18,7 +18,7 @@ except ImportError as err:
     print('Please install py-scrypt package. Error: ', err)
     raise(err)
 
-PYTHON3 = sys.version_info >= (3, 0)
+PYTHON2 = sys.version_info <= (3, 0)
 
 
 def enbase64(byte_str):
@@ -33,7 +33,7 @@ def enbase64(byte_str):
     """
 
     # Python 3: base64.b64encode() expects type byte
-    if PYTHON3 and isinstance(byte_str, str):
+    if isinstance(byte_str, str) and not PYTHON2:
         byte_str = bytes(byte_str, 'utf-8')
     return base64.b64encode(byte_str)
 
@@ -49,7 +49,7 @@ def debase64(byte_str):
         - decoded string as type str for python2 and type byte for python3.
     """
     # Python 3: base64.b64decode() expects type byte
-    if PYTHON3 and isinstance(byte_str, str):
+    if isinstance(byte_str, str) and not PYTHON2:
         byte_str = bytes(byte_str, 'utf-8')
     return base64.b64decode(byte_str)
 
@@ -76,6 +76,8 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
     Returns:
         - base64 encoded scrypt hash.
     """
+    if PYTHON2:
+        password = password.encode('utf-8')
     scrypt_hash = scrypt.hash(password, salt, N, r, p, buflen)
     return enbase64(scrypt_hash)
 
@@ -104,10 +106,12 @@ def check_password_hash(password, password_hash, salt):
     Returns:
        - ``bool``
     """
+    if PYTHON2:
+        password = password.encode('utf-8')
 
-    scrypt_hash_base64 = generate_password_hash(password, salt)
+    scrypt_hash = generate_password_hash(password, salt)
 
-    if password_hash == scrypt_hash_base64:
+    if password_hash == scrypt_hash:
         return True
 
     return False
