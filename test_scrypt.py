@@ -1,12 +1,17 @@
-import unittest
+import unittest, sys
 
 from flask_scrypt import generate_random_salt, generate_password_hash, check_password_hash
 
+PYTHON2 = sys.version_info <= (3, 0)
+
 class ScryptTestCase(unittest.TestCase):
+
+
     def setUp(self):
         self.salt = generate_random_salt()
         self.password = 'mypassword'
         self.password_hash = generate_password_hash(self.password, self.salt)
+
 
     def test_check_password_correct(self):
         password = 'mypassword'
@@ -25,6 +30,15 @@ class ScryptTestCase(unittest.TestCase):
         password_hash = self.password_hash
         salt = generate_random_salt()
         self.assertFalse(check_password_hash(password, password_hash, salt))
+
+    if PYTHON2:
+        def test_accept_unicode_str_python2(self):
+            salt = generate_random_salt()
+            password = unicode(self.password)
+            password_hash = generate_password_hash(password, salt)
+            self.assertTrue(check_password_hash(password, password_hash, salt))
+        
+
 
 if __name__ == '__main__':
     unittest.main()
