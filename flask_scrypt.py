@@ -4,7 +4,7 @@ import sys
 import base64
 from os import urandom
 
-__version_info__ = ('0', '1', '3')
+__version_info__ = ('0', '1', '3', '1')
 __version__ = '.'.join(__version_info__)
 __author__ = 'Gilbert Robinson'
 __license__ = 'MIT'
@@ -18,7 +18,7 @@ except ImportError as err:
     print('Please install py-scrypt package. Error: ', err)
     raise(err)
 
-PYTHON2 = sys.version_info <= (3, 0)
+PYTHON2 = sys.version_info < (3, 0)
 
 
 def enbase64(byte_str):
@@ -78,6 +78,7 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
     """
     if PYTHON2:
         password = password.encode('utf-8')
+        salt = salt.encode('utf-8')
     scrypt_hash = scrypt.hash(password, salt, N, r, p, buflen)
     return enbase64(scrypt_hash)
 
@@ -92,8 +93,7 @@ def generate_random_salt(byte_size=64):
     Returns:
         - str of base64 encoded random bytes.
     """
-    salt = enbase64(urandom(byte_size))
-    return salt
+    return enbase64(urandom(byte_size))
 
 
 def check_password_hash(password, password_hash, salt):
@@ -108,10 +108,9 @@ def check_password_hash(password, password_hash, salt):
     """
     if PYTHON2:
         password = password.encode('utf-8')
+        password_hash = password_hash.encode('utf-8')
+        salt = salt.encode('utf-8')
 
     scrypt_hash = generate_password_hash(password, salt)
 
-    if password_hash == scrypt_hash:
-        return True
-
-    return False
+    return password_hash == scrypt_hash
