@@ -1,22 +1,29 @@
-"""Flask-Scrypt flask extension provides scrypt password hashing and random salt generation. Hashes and Salts are base64 encoded.
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
+Flask-Scrypt flask extension provides scrypt password hashing and random salt generation.
+Hashes and Salts are base64 encoded.
+"""
+from __future__ import print_function, unicode_literals
 import sys
 import base64
 from os import urandom
 
-__version_info__ = ('0', '1', '3', '1')
+
+__version_info__ = ('0', '1', '3', '2')
 __version__ = '.'.join(__version_info__)
 __author__ = 'Gilbert Robinson'
 __license__ = 'MIT'
-__copyright__ = 'Copyright (c) 2013 Gilbert Robinson'
-__all__ = ['generate_password_hash', 'generate_random_salt', \
-        'check_password_hash', 'enbase64', 'debase64']
+__copyright__ = 'Copyright (c) 2013 Gilbert Robinson, Copyright (c) 2014 Samuel Marks'
+__all__ = ['generate_password_hash', 'generate_random_salt',
+           'check_password_hash', 'enbase64', 'debase64']
 
 try:
-    import scrypt
+    from scrypt import hash as scrypt_hash
 except ImportError as err:
     print('Please install py-scrypt package. Error: ', err)
-    raise(err)
+    raise err
 
 PYTHON2 = sys.version_info < (3, 0)
 
@@ -76,11 +83,8 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
     Returns:
         - base64 encoded scrypt hash.
     """
-    if PYTHON2:
-        password = password.encode('utf-8')
-        salt = salt.encode('utf-8')
-    scrypt_hash = scrypt.hash(password, salt, N, r, p, buflen)
-    return enbase64(scrypt_hash)
+    pw_hash = scrypt_hash(password, salt, N, r, p, buflen)
+    return enbase64(pw_hash)
 
 
 def generate_random_salt(byte_size=64):
@@ -106,11 +110,6 @@ def check_password_hash(password, password_hash, salt):
     Returns:
        - ``bool``
     """
-    if PYTHON2:
-        password = password.encode('utf-8')
-        password_hash = password_hash.encode('utf-8')
-        salt = salt.encode('utf-8')
+    candidate_hash = generate_password_hash(password, salt)
 
-    scrypt_hash = generate_password_hash(password, salt)
-
-    return password_hash == scrypt_hash
+    return password_hash ^ candidate_hash == 0
