@@ -10,11 +10,15 @@ import sys
 import base64
 import hmac
 from os import urandom
-from itertools import izip
+
+try:
+    from itertools import izip
+except ImportError:
+    izip = zip
 
 _builtin_safe_str_cmp = getattr(hmac, 'compare_digest', None)
 
-__version_info__ = ('0', '1', '3', '4')
+__version_info__ = ('0', '1', '3', '5')
 __version__ = '.'.join(__version_info__)
 __author__ = 'Gilbert Robinson'
 __license__ = 'MIT'
