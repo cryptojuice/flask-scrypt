@@ -8,10 +8,13 @@ Hashes and Salts are base64 encoded.
 from __future__ import print_function, unicode_literals
 import sys
 import base64
+import hmac
 from os import urandom
+from itertools import izip
 
+_builtin_safe_str_cmp = getattr(hmac, 'compare_digest', None)
 
-__version_info__ = ('0', '1', '3', '3')
+__version_info__ = ('0', '1', '3', '4')
 __version__ = '.'.join(__version_info__)
 __author__ = 'Gilbert Robinson'
 __license__ = 'MIT'
@@ -115,4 +118,26 @@ def check_password_hash(password, password_hash, salt):
     """
     candidate_hash = generate_password_hash(password, salt)
 
-    return password_hash ^ candidate_hash == 0
+    return safe_str_cmp(password_hash, candidate_hash)
+
+
+def safe_str_cmp(a, b):
+    """This function compares strings in somewhat constant time. This
+    requires that the length of at least one string is known in advance.
+
+    Returns `True` if the two strings are equal, or `False` if they are not.
+
+    From: https://github.com/mitsuhiko/werkzeug/blob/master/werkzeug/_compat.py
+    """
+    if _builtin_safe_str_cmp is not None:
+        return _builtin_safe_str_cmp(a, b)
+    elif len(a) != len(b):
+        return False
+    rv = 0
+    if isinstance(a, bytes) and isinstance(b, bytes) and not PYTHON2:
+        for x, y in izip(a, b):
+            rv |= x ^ y
+    else:
+        for x, y in izip(a, b):
+            rv |= ord(x) ^ ord(y)
+    return rv == 0
