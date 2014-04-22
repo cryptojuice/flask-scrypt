@@ -131,7 +131,7 @@ def safe_str_cmp(a, b):
 
     Returns `True` if the two strings are equal, or `False` if they are not.
 
-    From: https://github.com/mitsuhiko/werkzeug/blob/master/werkzeug/_compat.py
+    From: https://github.com/mitsuhiko/werkzeug/blob/master/werkzeug/security.py
     """
     if _builtin_safe_str_cmp is not None:
         return _builtin_safe_str_cmp(a, b)
