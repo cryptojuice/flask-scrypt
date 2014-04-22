@@ -11,7 +11,7 @@ import base64
 from os import urandom
 
 
-__version_info__ = ('0', '1', '3', '2')
+__version_info__ = ('0', '1', '3', '3')
 __version__ = '.'.join(__version_info__)
 __author__ = 'Gilbert Robinson'
 __license__ = 'MIT'
@@ -83,6 +83,9 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
     Returns:
         - base64 encoded scrypt hash.
     """
+    if PYTHON2:
+        password = password.encode('utf-8')
+        salt = salt.encode('utf-8')
     pw_hash = scrypt_hash(password, salt, N, r, p, buflen)
     return enbase64(pw_hash)
 
