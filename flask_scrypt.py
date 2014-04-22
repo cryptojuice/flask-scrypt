@@ -138,7 +138,7 @@ def safe_str_cmp(a, b):
     elif len(a) != len(b):
         return False
     rv = 0
-    if isinstance(a, bytes) and isinstance(b, bytes) and not PYTHON2:
+    if not PYTHON2 and isinstance(a, bytes) and isinstance(b, bytes):
         for x, y in izip(a, b):
             rv |= x ^ y
     else:
