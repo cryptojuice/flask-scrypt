@@ -120,7 +120,7 @@ def check_password_hash(password, password_hash, salt, N=1 << 14, r=8, p=1, bufl
     Returns:
        - ``bool``
     """
-    candidate_hash = generate_password_hash(password, salt, N=1 << 14, r=8, buflen=64)
+    candidate_hash = generate_password_hash(password, salt, N, r, p, buflen)
 
     return safe_str_cmp(password_hash, candidate_hash)
 
