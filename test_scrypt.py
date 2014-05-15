@@ -27,6 +27,12 @@ class ScryptTestCase(TestCase):
         password_hash = self.password_hash
         self.assertFalse(check_password_hash(incorrect_password, password_hash, salt))
 
+    def test_check_password_correct_with_none_default_params(self):
+        password = 'mypassword'
+        salt = self.salt
+        password_hash = generate_password_hash(password, salt, r=10)
+        self.assertTrue(check_password_hash(password, password_hash, salt, r=10))
+
     def test_password_fail_with_incorrect_salt(self):
         password = self.password
         password_hash = self.password_hash
