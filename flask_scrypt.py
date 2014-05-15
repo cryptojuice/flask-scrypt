@@ -18,7 +18,7 @@ except ImportError:
 
 _builtin_safe_str_cmp = getattr(hmac, 'compare_digest', None)
 
-__version_info__ = ('0', '1', '3', '5')
+__version_info__ = ('0', '1', '3', '6')
 __version__ = '.'.join(__version_info__)
 __author__ = 'Gilbert Robinson'
 __license__ = 'MIT'
