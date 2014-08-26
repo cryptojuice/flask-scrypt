@@ -44,7 +44,7 @@ Remember you sould store the generated salt and hash in your database with each 
 API
 ---
 
-.. automodule:: flask_scrypt 
+.. automodule:: flask_scrypt
     :members:
 
 Indices and tables
