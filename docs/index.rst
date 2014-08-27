@@ -34,7 +34,7 @@ Usage
 
 
 >>> from flask.ext.scrypt import generate_random_salt, generate_password_hash, check_password_hash
->>> salt = generate_password_salt() #: You can also provide the byte length to return: salt = generate_password_salt(32)
+>>> salt = generate_random_salt() #: You can also provide the byte length to return: salt = generate_random_salt(32)
 >>> password_hash = generate_password_hash('mypassword', salt)
 
 Remember you sould store the generated salt and hash in your database with each user to use with check_password_hash().
