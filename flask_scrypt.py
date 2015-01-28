@@ -10,6 +10,7 @@ import sys
 import base64
 import hmac
 from os import urandom
+from werkzeug.security import safe_str_cmp
 
 try:
     from itertools import izip
@@ -34,7 +35,6 @@ except ImportError as err:
 
 PYTHON2 = sys.version_info < (3, 0)
 
-
 def enbase64(byte_str):
     """
     Encode bytes/strings to base64.
@@ -51,7 +51,6 @@ def enbase64(byte_str):
         byte_str = bytes(byte_str, 'utf-8')
     return base64.b64encode(byte_str)
 
-
 def debase64(byte_str):
     """
     Decode base64 encoded bytes/strings.
@@ -66,7 +65,6 @@ def debase64(byte_str):
     if isinstance(byte_str, str) and not PYTHON2:
         byte_str = bytes(byte_str, 'utf-8')
     return base64.b64decode(byte_str)
-
 
 def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
     """
@@ -96,7 +94,6 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
     pw_hash = scrypt_hash(password, salt, N, r, p, buflen)
     return enbase64(pw_hash)
 
-
 def generate_random_salt(byte_size=64):
     """
     Generate random salt to use with generate_password_hash().
@@ -108,7 +105,6 @@ def generate_random_salt(byte_size=64):
         - str of base64 encoded random bytes.
     """
     return enbase64(urandom(byte_size))
-
 
 def check_password_hash(password, password_hash, salt, N=1 << 14, r=8, p=1, buflen=64):
     """
@@ -123,25 +119,3 @@ def check_password_hash(password, password_hash, salt, N=1 << 14, r=8, p=1, bufl
     candidate_hash = generate_password_hash(password, salt, N, r, p, buflen)
 
     return safe_str_cmp(password_hash, candidate_hash)
-
-
-def safe_str_cmp(a, b):
-    """This function compares strings in somewhat constant time. This
-    requires that the length of at least one string is known in advance.
-
-    Returns `True` if the two strings are equal, or `False` if they are not.
-
-    From: https://github.com/mitsuhiko/werkzeug/blob/master/werkzeug/security.py
-    """
-    if _builtin_safe_str_cmp is not None:
-        return _builtin_safe_str_cmp(a, b)
-    elif len(a) != len(b):
-        return False
-    rv = 0
-    if not PYTHON2 and isinstance(a, bytes) and isinstance(b, bytes):
-        for x, y in izip(a, b):
-            rv |= x ^ y
-    else:
-        for x, y in izip(a, b):
-            rv |= ord(x) ^ ord(y)
-    return rv == 0
