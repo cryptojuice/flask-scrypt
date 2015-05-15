@@ -33,6 +33,15 @@ class ScryptTestCase(TestCase):
         password_hash = generate_password_hash(password, salt, r=10)
         self.assertTrue(check_password_hash(password, password_hash, salt, r=10))
 
+    def test_throws_attribute_error_when_salt_none(self):
+        password = self.password
+        password_hash = self.password_hash
+        salt = None
+        try:
+            check_password_hash(password, password_hash, salt)
+        except AttributeError as err:
+            self.assertEqual(err.message, u"Error encoding salt, please make sure salt is not None.")
+
     def test_password_fail_with_incorrect_salt(self):
         password = self.password
         password_hash = self.password_hash

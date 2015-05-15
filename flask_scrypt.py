@@ -90,9 +90,13 @@ def generate_password_hash(password, salt, N=1 << 14, r=8, p=1, buflen=64):
     """
     if PYTHON2:
         password = password.encode('utf-8')
+    try:
         salt = salt.encode('utf-8')
-    pw_hash = scrypt_hash(password, salt, N, r, p, buflen)
-    return enbase64(pw_hash)
+    except AttributeError:
+        raise AttributeError("Error encoding salt, please make sure salt is not None.")
+    else:
+        pw_hash = scrypt_hash(password, salt, N, r, p, buflen)
+        return enbase64(pw_hash)
 
 def generate_random_salt(byte_size=64):
     """
