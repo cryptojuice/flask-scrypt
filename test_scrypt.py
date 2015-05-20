@@ -8,7 +8,6 @@ from flask_scrypt import generate_random_salt, generate_password_hash, check_pas
 
 PYTHON2 = sys.version_info <= (3, 0)
 
-
 class ScryptTestCase(TestCase):
     def setUp(self):
         self.salt = generate_random_salt()
@@ -34,11 +33,8 @@ class ScryptTestCase(TestCase):
         self.assertTrue(check_password_hash(password, password_hash, salt, r=10))
 
     def test_throws_attribute_error_when_salt_none(self):
-        password = self.password
-        password_hash = self.password_hash
-        salt = None
         try:
-            check_password_hash(password, password_hash, salt)
+            generate_password_hash(self.password, None)
         except AttributeError as err:
             self.assertEqual(err.message, u"Error encoding salt, please make sure salt is not None.")
 
